@@ -1,0 +1,11 @@
+{
+  "name": "decoction-query-system",
+  "private": true,
+  "workspaces": ["admin-web", "api-server"],
+  "scripts": {
+    "dev:admin": "npm run dev -w admin-web",
+    "dev:api": "npm run dev -w api-server",
+    "build": "npm run build -w api-server && npm run build -w admin-web",
+    "setup": "npm run db:setup -w api-server"
+  }
+}

@@ -1,0 +1,6 @@
+<view class="page safe-bottom">
+  <view class="hero"><view class="nav"><view class="logo">安</view><text>安心煎药</text></view><view class="leaf leaf-one"></view><view class="leaf leaf-two"></view><text class="hero-small">DECOCTION PROGRESS</text><view class="hero-title">每一份用心煎制，\n都值得安心等待</view><text class="hero-desc">输入登记手机号，随时查看煎药进度</text></view>
+  <view class="query card"><view class="query-icon">⌕</view><view class="query-title">查询煎药进度</view><view class="query-sub">请输入药房登记时预留的手机号码</view><view class="field {{phone ? 'active' : ''}}"><text>+86</text><input type="number" maxlength="11" value="{{phone}}" placeholder="请输入 11 位手机号" placeholder-class="placeholder" bindinput="onInput" confirm-type="search" bindconfirm="query"/><view wx:if="{{canSubmit}}" class="check">✓</view></view><button class="primary-btn" disabled="{{!canSubmit}}" loading="{{loading}}" bindtap="query">查询进度</button><view class="privacy"><text>●</text> 仅展示必要的进度信息，我们重视您的隐私</view></view>
+  <view class="steps"><view><i>1</i><text>登记任务</text></view><b></b><view><i>2</i><text>精心煎制</text></view><b></b><view><i>3</i><text>完成领取</text></view></view>
+  <view class="help">如手机号无法查询，请联系药房工作人员</view>
+</view>

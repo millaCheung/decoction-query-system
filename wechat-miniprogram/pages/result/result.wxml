@@ -1,0 +1,13 @@
+<wxs module="f">
+function date(v){if(!v)return '--';var d=getDate(v);return (d.getMonth()+1)+'月'+d.getDate()+'日 '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)}
+module.exports.date=date;
+</wxs>
+<view class="page safe-bottom">
+  <view wx:if="{{loading}}" class="loading"><view class="spinner"></view><text>正在查询...</text></view>
+  <view wx:elif="{{!records.length}}" class="empty card"><view class="empty-icon">⌕</view><view class="empty-title">暂未查询到记录</view><text>请确认手机号是否为登记时预留号码</text><button class="primary-btn" bindtap="fetch">重新查询</button></view>
+  <block wx:else><view class="top"><text class="top-label">当前煎药状态</text><view class="status-orb"><view>♨</view></view><view class="status-title">{{statusMeta[records[current].status].label}}</view><text class="status-tip">{{statusMeta[records[current].status].tip}}</text></view>
+    <view class="content"><view wx:if="{{records.length>1}}" class="record-tabs"><view wx:for="{{records}}" wx:key="orderNo" data-index="{{index}}" class="tab {{current===index?'active':''}}" bindtap="switchRecord">{{index===0?'最新记录':'历史 '+index}}</view></view>
+      <view class="info card"><view class="info-head"><view><text>{{records[current].patientName}}</text><small>{{records[current].phone}}</small></view><text class="no">{{records[current].orderNo}}</text></view><view class="progress"><view class="line"><i class="done"></i><b class="{{statusMeta[records[current].status].step>=2?'active':''}}"></b><i class="{{statusMeta[records[current].status].step>=2?'done':''}}"></i><b class="{{statusMeta[records[current].status].step>=3?'active':''}}"></b><i class="{{statusMeta[records[current].status].step>=3?'done':''}}"></i></view><view class="progress-label"><text>已登记</text><text>煎制中</text><text>已完成</text></view></view>
+        <view class="times"><view><text>登记时间</text><b>{{f.date(records[current].registeredAt)}}</b></view><view><text>开始煎制</text><b>{{f.date(records[current].startTime)}}</b></view><view><text>完成时间</text><b>{{f.date(records[current].finishTime)}}</b></view></view></view>
+      <view class="notice"><view>温馨提示</view><text>{{records[current].status==='FINISHED'?'请凭取药凭证前往药房领取，注意核对姓名与份数。':'煎制需要一定时间，状态更新后您可重新进入查看。'}}</text></view><button class="refresh" bindtap="fetch">↻ 刷新进度</button><view class="footer">进度信息仅保留 30 天 · 如有疑问请联系药房</view></view></block>
+</view>

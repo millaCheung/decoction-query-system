@@ -1,0 +1,11 @@
+{
+  "pages": ["pages/index/index", "pages/result/result"],
+  "window": {
+    "navigationBarTitleText": "安心煎药",
+    "navigationBarBackgroundColor": "#0b6552",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f4f8f6"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

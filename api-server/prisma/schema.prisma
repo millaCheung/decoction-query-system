@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int            @id @default(autoincrement())
+  username     String         @unique
+  passwordHash String
+  name         String
+  role         String         @default("STAFF")
+  status       String         @default("ACTIVE")
+  createdAt    DateTime       @default(now())
+  lastLoginAt  DateTime?
+  orders       DecoctionOrder[]
+  statusLogs   StatusLog[]
+  operationLogs OperationLog[]
+}
+
+model DecoctionOrder {
+  id           Int         @id @default(autoincrement())
+  orderNo      String      @unique
+  patientName  String
+  phone        String
+  status       String      @default("WAITING")
+  remark       String?
+  registeredAt DateTime    @default(now())
+  startTime    DateTime?
+  finishTime   DateTime?
+  pickupTime   DateTime?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  expireAt     DateTime
+  createdById  Int
+  createdBy    User        @relation(fields: [createdById], references: [id])
+  statusLogs   StatusLog[]
+
+  @@index([phone, registeredAt])
+  @@index([status, registeredAt])
+  @@index([expireAt])
+}
+
+model StatusLog {
+  id         Int             @id @default(autoincrement())
+  orderId    Int
+  oldStatus  String?
+  newStatus  String
+  operatorId Int
+  createdAt  DateTime        @default(now())
+  order      DecoctionOrder  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  operator   User            @relation(fields: [operatorId], references: [id])
+}
+
+model OperationLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  action    String
+  targetId  String?
+  ip        String?
+  detail    String?
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+
+  @@index([createdAt])
+}

@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.log
+.env
+api-server/prisma/*.db*
+admin-web/.rsbuild-cache/
+.DS_Store
